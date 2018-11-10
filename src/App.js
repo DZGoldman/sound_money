@@ -10,7 +10,7 @@ import bitcoin from "bitcoinjs-lib";
 // const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey })
 // console.log(address)
 var hash = "";
-const recordTime = 20;
+const recordTime = 10;
 
 var QRCode = require("qrcode");
 
@@ -27,20 +27,72 @@ class App extends Component {
     showQRs: false
   };
 
-  // phases: start, instructions1, instrucitons2, record, qr
+  // phases: start, instr1, instr2, record, qr
+  initInstr1 = () => {
+    // todo: online status
+    this.setState({
+      phase: 'instr1',
+      showHead: false,
+      nextButtonText: ''
+    }, ()=>{
+      this.setMessage('1. disconnect your internet access (recommended)', 
+      ()=> this.setState({ nextButtonText: 'next'}))
+    })
+  }
 
+  initInstr2 = () => {
+    // todo: online status
+    this.setState({
+      phase: 'instr2',
+      nextButtonText: ''
+    }, ()=>{
+      this.setMessage('2. ensure audio is connected; the red line should be active', 
+      ()=> this.setState({ nextButtonText: 'next', recording: true}))
+    })
+  }
+
+  initRecording = () => {
+    this.setState({
+      phase: 'record',
+      message: '',
+      nextButtonText: '',
+      recording: false
+    }, ()=>{
+      var count = 3;
+      this.setState({
+        shortCountDown: count
+      })
+      const intID = window.setInterval(()=>{
+        count -- 
+        this.setState({
+          shortCountDown: count
+        })
+
+        if (count == 0){
+          window.clearInterval(intID)
+          this.startRecording()
+        }
+      }, 1000)
+    })
+  }
   componentDidMount = () => {
     window.r = this;
     // this.startRecording()
 
-    // var canvas = document.getElementById('canvas')
+    var canvas = document.getElementById('canvas')
 
-    // QRCode.toCanvas(canvas, '12Yr17SCr5TuDzbr56s36nY9qBYYpM5Lm2', function (error) {
-    //   if (error) console.error(error)
-    //   console.log('success!');
-    // })
+    QRCode.toCanvas(canvas, '12Yr17SCr5TuDzbr56s36nY9qBYYpM5Lm2', function (error) {
+      if (error) console.error(error)
+      console.log('success!');
+    })
     // window.print();
+    window.addEventListener('offline', this.goOffline, false)
   };
+
+  goOffline = () => {
+    console.log('went offline')
+    alert('asdf')
+  }
 
   sha256 = str => {
     var md = forge.md.sha256.create();
@@ -71,6 +123,7 @@ class App extends Component {
     );
   };
   onData = blob => {
+    if (this.state.phase != 'record') return
     var reader = new FileReader();
     reader.addEventListener("loadend", () => {
       var buf = reader.result;
@@ -113,20 +166,36 @@ class App extends Component {
     }, 20);
   };
 
+  nextClick = () => {
+    const {phase} = this.state
+    if (phase == 'start'){
+      this.initInstr1()
+    } else if (phase == 'instr1'){
+      this.initInstr2()
+    } else if (phase == 'instr2') {
+      this.initRecording()
+    }
+  }
+
+  
+
   render() {
+    const {showHead, nextButtonText, shortCountDown, phase, recording} = this.state
     return (
       <div className="App">
-        {/* <canvas id="canvas"></canvas> */}
+        <canvas id="canvas"></canvas>
 
-        {this.state.showHead && (
+   
           <div id="header-container">
-            <div id="header">sound money</div>
-            <div id="sub">paper wallet generator from audio entropy</div>
+            <div id="header">{showHead && "sound money"}</div>
+            <div id="sub">{showHead && "paper wallet generator from audio entropy"}</div>
           </div>
-        )}
+        
         <div id="message">{this.state.message}</div>
-      {this.state.nextButtonText && <div id="next-button">{this.state.nextButtonText}</div> }
+      {this.state.nextButtonText && <div onClick={this.nextClick} id="next-button">{this.state.nextButtonText}</div> }
         {this.state.showNext && <button onClick={this.nextPhase}>next</button>}
+        <div>{shortCountDown > 0 && shortCountDown}</div>
+        <div id='make-noise'>{recording && phase == 'record' && "make noise"}</div>
         <ReactMic
           record={this.state.recording} // defaults -> false.  Set to true to begin recording
           onStop={this.finalize} // callback to execute when audio stops recording
