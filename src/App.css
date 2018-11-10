@@ -1,9 +1,11 @@
 .App {
   text-align: center;
 }
+/* @import url(http://allfont.net/allfont.css?fonts=arcade-normal); */
 @font-face {
   /* font-family: 'The name of the Font Family Here'; */
   /* src: URL('font.ttf') format('truetype'); */
+  /* src: url("./arcade.ttf"); */
   color: white;
 }
 body{
@@ -11,7 +13,12 @@ body{
   /* font-family: 'The name of the Font Family Here'; */
   /* /* /* src: URL('orange_kid.ttf') format('truetype'); */
   color: white; 
-  font-family: 'Iceland', cursive;
+  /* font-family: 'Iceland', cursive; */
+  /* font-family: 'Arcade Normal', arial; */
+  /* font-family: 'Roboto Condensed', sans-serif; */
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  padding: 16px;
   
 } 
 
@@ -22,13 +29,14 @@ body{
 
 #header {
   display: flex;
-  font-size: 35px;
+  font-size: 20px;
 }
 
 #sub{
   display: flex;
   margin-top: 8px;
-  font-style: italic
+  font-size: 10px;
+  margin-top: 15px;
 }
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -58,7 +66,7 @@ body{
   bottom: 0;
   left: 0;
   right: 0;
-
+  z-index: -1;
   margin: auto;
 }
 
@@ -74,3 +82,71 @@ body{
 #message{
   display: flex
 }
+
+#canvas-component-wrapper{
+  display: flex;
+  justify-content: space-around
+  /* flex-direction: column; */
+}
+
+#offline {
+  position: absolute;
+  color: red;
+  animation: fade 1s linear;
+  -webkit-animation: fadeinout 6s linear forwards;
+  animation: fadeinout 10s linear forwards;
+}
+
+@-webkit-keyframes fadeinout {
+0%,100% { opacity: 0; }
+20% { opacity: 1; }
+}
+
+@keyframes fadeinout {
+0%,100% { opacity: 0; }
+20% { opacity: 1; }
+}
+
+#next-button-wrapper{
+  min-height: 40px;
+  position: absolute;
+  width: 100%;
+  top: 25%;
+}
+#next-button{
+  /* opacity: 0; */
+  /* border: 1px solid white; */
+  /* text-align: left; */
+  /* margin-top: 15px; */
+  /* position: fixed; */
+  position: absolute;
+  width: 100%;
+  display: flex;
+  /* align-items: center;
+  justify-content: center; */
+  top: 25%;
+  /* left: 45%; */
+  z-index: 1;
+  font-size: 15px;
+  padding-left:15px;
+  cursor: pointer;
+  /* left: 32px; */
+}
+
+.qr-wrapper{
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid blue; */
+
+}
+
+.qr-canvas{
+  /* border: 1px solid purple; */
+  min-width: 180px;
+  min-height: 180px;
+}
+
+.canvas-key-row, .canvas-label-row{
+  margin-top:8px;
+}
+
