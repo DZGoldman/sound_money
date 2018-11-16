@@ -60,7 +60,7 @@ body{
 .ts{
   width: 100%;
   /* position: 50%; */
-  height: 50%;
+  height: 100%;
   position: absolute;
   top:0;
   bottom: 0;
@@ -85,8 +85,27 @@ body{
 
 #canvas-component-wrapper{
   display: flex;
-  justify-content: space-around
-  /* flex-direction: column; */
+  /* justify-content: space-around; */
+  flex-direction: column;
+}
+#outputs{
+  display: flex;
+  justify-content: center;
+  margin-top:20px;
+ 
+}
+
+#outputs > div {
+    margin: 8px;
+    cursor: pointer;
+}
+
+
+
+#qrs-wrapper{
+  display: flex;
+  justify-content: space-around;
+
 }
 
 #offline {
@@ -95,6 +114,7 @@ body{
   animation: fade 1s linear;
   -webkit-animation: fadeinout 6s linear forwards;
   animation: fadeinout 10s linear forwards;
+  right: 5%;
 }
 
 @-webkit-keyframes fadeinout {
@@ -148,5 +168,34 @@ body{
 
 .canvas-key-row, .canvas-label-row{
   margin-top:8px;
+  /* transform: rotate(90deg); */
 }
 
+.canvas-key-row{
+  font-size: 7px;
+}
+
+#footer{
+  bottom: 15px;
+  position: absolute;
+}
+
+.icon{
+  color: white;
+}
+
+#me-wrapper{
+  display: flex;
+  margin-bottom: 5px;
+}
+#me-wrapper > * {
+  margin-right: 5px;
+}
+
+footer{
+  font-size: 8px;
+}
+
+#short-cd{
+  margin-top: 5px;
+}

@@ -13,7 +13,7 @@ import { Animated } from "react-animated-css";
 // const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey })
 // console.log(address)
 var hash = "";
-const recordTime = 3;
+const recordTime = 10;
 
 var QRCode = require("qrcode");
 
@@ -28,7 +28,9 @@ class App extends Component {
     mainCountDown: 0,
     // make noise
     QRs: false,
-    showOffline: false
+    showOffline: false,
+    showFoot: true,
+    showPrint: true
   };
 
   // phases: start, instr1, instr2, record, qr
@@ -38,7 +40,8 @@ class App extends Component {
       {
         phase: "instr1",
         showHead: false,
-        nextButtonText: ""
+        nextButtonText: "",
+        showFoot: false
       },
       () => {
         this.setMessage(
@@ -58,7 +61,7 @@ class App extends Component {
       },
       () => {
         this.setMessage(
-          "2. ensure audio is connected; the red line should be active",
+          "2. ensure audio is connected (the red waveform should be active)",
           () => this.setState({ nextButtonText: "next", recording: true })
         );
       }
@@ -135,7 +138,8 @@ class App extends Component {
           QRs: {
             private: keyPair.toWIF(),
             address
-          }
+          },
+          showFoot: true
         });
 
         // var md = forge.md.sha256.create();
@@ -166,10 +170,17 @@ class App extends Component {
     this.setState({
       recording: true
     });
-
-    window.setTimeout(() => {
-      this.finalize();
-    }, recordTime * 1000);
+    var count = recordTime
+    const intId = window.setInterval(() => {
+      console.log(count)
+      this.setState({shortCountDown: count})
+      count -- 
+      if (count < 0){
+        this.setState({shortCountDown: 0})
+        window.clearInterval(intId)
+        this.finalize();
+      }
+    }, 1000);
   };
 
   initStopRecording() {}
@@ -183,7 +194,7 @@ class App extends Component {
         window.clearInterval(intId);
         then && then();
       }
-    }, 20);
+    }, 15);
   };
 
   nextClick = () => {
@@ -196,7 +207,14 @@ class App extends Component {
       this.initRecording();
     }
   };
-
+  preparePrint = ()=>{
+    this.setState({
+      showPrint: false,
+      showFoot: false
+    }, ()=>{
+      window.print()
+    })
+  }
   render() {
     const {
       showHead,
@@ -205,18 +223,23 @@ class App extends Component {
       phase,
       recording,
       QRs,
-      showOffline
+      showOffline,
+      showFoot
     } = this.state;
     return (
       <div className="App">
-        {QRs && <QR QRs={QRs} />}
+        {QRs && <QR 
+        QRs={QRs} 
+        showPrint={this.state.showPrint}
+        preparePrint={this.preparePrint}
+        />}
         <div id="header-container">
           <div id="header">{showHead && "sound money"}</div>
           <div id="sub">
-            {showHead && "paper wallet generator from audio entropy"}
+            {showHead && "bitcoin paper wallet from audio entropy"}
           </div>
         </div>
-        {showOffline && <div id="offline">you went offline (apparantly)</div>}
+        {showOffline && <div id="offline">you appear to now be offline</div>}
         <div id="message">{this.state.message}</div>
         <div id="next-button-wrapper">
           {this.state.nextButtonText && (
@@ -231,10 +254,10 @@ class App extends Component {
             </Animated>
           )}
         </div>
-        <div>{shortCountDown > 0 && shortCountDown}</div>
         <div id="make-noise">
           {recording && phase == "record" && "make noise"}
         </div>
+        <div id='short-cd'>{shortCountDown > 0 && shortCountDown}</div>
         <ReactMic
           record={this.state.recording} // defaults -> false.  Set to true to begin recording
           // onStop={this.finalize} // callback to execute when audio stops recording
@@ -243,6 +266,14 @@ class App extends Component {
           backgroundColor={"black"} // background color
           className={"ts"}
         />
+        {showFoot && <footer id='footer'>
+        <div id='me-wrapper'>
+          <span>daniel goldman</span>
+          <a target ="_blank" href="https://twitter.com/DZack23"> <i className="fab fa-twitter icon"> </i> </a>
+          <a target ="_blank" href="https://github.com/DZGoldman/sound_money"> <i className="fab fa-github icon"></i> </a> 
+        </div>
+        <span className='tip'>BTC: 33STRJgjFgG2r8vEy9xLKN5dYfw26tSmVi </span>
+        </footer>}
       </div>
     );
   }
