@@ -6,6 +6,8 @@ import bitcoin from "bitcoinjs-lib";
 import $ from "jquery";
 import QR from "./QR";
 import { Animated } from "react-animated-css";
+import Favicon from 'react-favicon';
+
 
 // var hash = bitcoin.crypto.sha256(Buffer.from('correct horalsdhljkasdfkladhsfse battery staple'))
 // console.log(hash)
@@ -228,6 +230,8 @@ class App extends Component {
     } = this.state;
     return (
       <div className="App">
+                <Favicon url="https://d1o50x50snmhul.cloudfront.net/wp-content/uploads/2012/04/mg21428614.500-2_300.jpg" />
+
         {QRs && <QR 
         QRs={QRs} 
         showPrint={this.state.showPrint}
