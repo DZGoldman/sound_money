@@ -7,7 +7,7 @@ import $ from "jquery";
 import QR from "./QR";
 import { Animated } from "react-animated-css";
 import Favicon from 'react-favicon';
-
+import Social from './Social'
 
 // var hash = bitcoin.crypto.sha256(Buffer.from('correct horalsdhljkasdfkladhsfse battery staple'))
 // console.log(hash)
@@ -270,17 +270,7 @@ class App extends Component {
           backgroundColor={"black"} // background color
           className={"ts"}
         />
-        {showFoot && <footer id='footer'>
-        <div id='me-wrapper'>
-          <span id='my-name'>daniel goldman</span>
-          <a target ="_blank" href="https://twitter.com/DZack23"> <i className="fab fa-twitter icon"> </i> </a>
-          <a target ="_blank" href="https://github.com/DZGoldman/sound_money"> <i className="fab fa-github icon"></i> </a> 
-          <a target ="_blank" href="https://medium.com/@dzack23"> <i className="fab fa-medium icon"></i> </a>
-          <a target ="_blank" href="http://danielzgoldman.com/"> <i className="fa fa-home icon"></i> </a>
-       
-        </div>
-        <span className='tip'>BTC: 33STRJgjFgG2r8vEy9xLKN5dYfw26tSmVi </span>
-        </footer>}
+        {showFoot && <Social/>}
       </div>
     );
   }

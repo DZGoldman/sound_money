@@ -92,6 +92,7 @@ body{
   display: flex;
   justify-content: center;
   margin-top:20px;
+  z-index: 100;
  
 }
 
@@ -175,32 +176,7 @@ body{
   font-size: 7px;
 }
 
-#footer{
-  bottom: 15px;
-  position: absolute;
-}
-
-.icon{
-  color: white;
-  font-size: 13px;
-}
-
-#me-wrapper{
-  display: flex;
-  margin-bottom: 5px;
-}
-#me-wrapper > * {
-  margin-right: 5px;
-}
-
-footer{
-  font-size: 8px;
-}
-
 #short-cd{
   margin-top: 5px;
 }
 
-#my-name{
-  margin-top:3px;
-}
