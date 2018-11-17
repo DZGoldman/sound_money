@@ -182,6 +182,7 @@ body{
 
 .icon{
   color: white;
+  font-size: 13px;
 }
 
 #me-wrapper{
@@ -198,4 +199,8 @@ footer{
 
 #short-cd{
   margin-top: 5px;
+}
+
+#my-name{
+  margin-top:3px;
 }
