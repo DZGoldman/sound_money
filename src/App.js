@@ -102,10 +102,7 @@ class App extends Component {
 
     $(() => {
       window.addEventListener("offline", this.goOffline, false);
-      // window.setTimeout(()=>{
-      //   $('#next-button').animate({opacity: 1}, 1000)
 
-      // }, 500)
     });
   };
 
@@ -131,7 +128,6 @@ class App extends Component {
       () => {
         hash = hash + +new Date() + Math.random();
         var privk = bitcoin.crypto.sha256(Buffer.from(hash));
-        // console.log(privk)
         const keyPair = bitcoin.ECPair.fromPrivateKey(privk);
         const { address } = bitcoin.payments.p2pkh({
           pubkey: keyPair.publicKey
@@ -143,10 +139,6 @@ class App extends Component {
           },
           showFoot: true
         });
-
-        // var md = forge.md.sha256.create();
-        // md.update(hash);
-        // console.log(md.digest().toHex())
       }
     );
   };
@@ -159,7 +151,6 @@ class App extends Component {
       var byteArray = new Uint8Array(buf);
       var byteStr = [...byteArray].join("");
       hash += byteStr;
-      // console.log(hash.length)
       // if (hash.length > 300000){
       //          // this.setState({recording: false})
       //   hash = this.sha256(hash)
@@ -217,6 +208,23 @@ class App extends Component {
       window.print()
     })
   }
+
+  renderSocial = () => {
+    if (this.state.QRs) {
+      return (
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInDelay={1000}
+        >
+          <Social />
+        </Animated>
+      );
+    } else {
+      return <Social />;
+    }
+  };
   render() {
     const {
       showHead,
@@ -232,11 +240,19 @@ class App extends Component {
       <div className="App">
                 <Favicon url="https://d1o50x50snmhul.cloudfront.net/wp-content/uploads/2012/04/mg21428614.500-2_300.jpg" />
 
-        {QRs && <QR 
+        {QRs &&      <Animated
+              animationIn="fadeIn"
+              animationOut="fadeOut"
+              isVisible={true}
+              animationInDelay={1000}
+            >
+        <QR 
         QRs={QRs} 
         showPrint={this.state.showPrint}
         preparePrint={this.preparePrint}
-        />}
+        />
+            </Animated>
+        }
         <div id="header-container">
           <div id="header">{showHead && "sound money"}</div>
           <div id="sub">
@@ -264,13 +280,12 @@ class App extends Component {
         <div id='short-cd'>{shortCountDown > 0 && shortCountDown}</div>
         <ReactMic
           record={this.state.recording} // defaults -> false.  Set to true to begin recording
-          // onStop={this.finalize} // callback to execute when audio stops recording
           onData={this.onData} // callback to execute when chunk of audio data is available
           strokeColor={"red"} // sound wave color
           backgroundColor={"black"} // background color
           className={"ts"}
         />
-        {showFoot && <Social/>}
+        {showFoot && this.renderSocial()}
       </div>
     );
   }
