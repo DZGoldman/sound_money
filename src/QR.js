@@ -32,14 +32,14 @@ class QR extends PureComponent {
             <canvas id="address-qr" className='qr-canvas'/>{" "}
           </div>
           <div className='canvas-label-row'>btc private key</div>
-          <div className='canvas-key-row'>{this.props.QRs.address}</div>
+          <div className='canvas-key-row'>{this.props.QRs.private}</div>
         </div>
         <div className="qr-wrapper">
           <div>
             <canvas id="private-qr" className='qr-canvas' />
           </div>
           <div className='canvas-label-row'>btc public address</div>
-          <div className='canvas-key-row'>{this.props.QRs.private}</div>
+          <div className='canvas-key-row'>{this.props.QRs.address}</div>
         </div>
         </div>
       <div id='outputs'>
