@@ -9,11 +9,6 @@ import { Animated } from "react-animated-css";
 import Favicon from 'react-favicon';
 import Social from './Social'
 
-// var hash = bitcoin.crypto.sha256(Buffer.from('correct horalsdhljkasdfkladhsfse battery staple'))
-// console.log(hash)
-// const keyPair = bitcoin.ECPair.fromPrivateKey(hash)
-// const { address } = bitcoin.payments.p2pkh({ pubkey: keyPair.publicKey })
-// console.log(address)
 var hash = "";
 const recordTime = 10;
 
