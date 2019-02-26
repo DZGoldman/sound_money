@@ -27,8 +27,10 @@ class App extends Component {
     QRs: false,
     showOffline: false,
     showFoot: true,
-    showPrint: true
-  };
+    showPrint: true,
+    blinker: true
+  }
+
 
   // phases: start, instr1, instr2, record, qr
   initInstr1 = () => {
@@ -65,13 +67,17 @@ class App extends Component {
     );
   };
 
+  tr = () =>{
+    this.setState({recording: !this.state.recording})
+  }
   initRecording = () => {
     this.setState(
       {
         phase: "record",
         message: "",
         nextButtonText: "",
-        recording: false
+        recording: false,
+        blinker: false
       },
       () => {
         var count = 3;
@@ -94,6 +100,7 @@ class App extends Component {
   };
   componentDidMount = () => {
     window.r = this;
+    window.tr = this.tr
 
     $(() => {
       window.addEventListener("offline", this.goOffline, false);
@@ -156,7 +163,8 @@ class App extends Component {
 
   startRecording = () => {
     this.setState({
-      recording: true
+      recording: true,
+      blinker: true
     });
     var count = recordTime
     const intId = window.setInterval(() => {
@@ -273,13 +281,13 @@ class App extends Component {
           {recording && phase == "record" && "make noise"}
         </div>
         <div id='short-cd'>{shortCountDown > 0 && shortCountDown}</div>
-        <ReactMic
+       {this.state.blinker && <ReactMic
           record={this.state.recording} // defaults -> false.  Set to true to begin recording
           onData={this.onData} // callback to execute when chunk of audio data is available
           strokeColor={"red"} // sound wave color
           backgroundColor={"black"} // background color
           className={"ts"}
-        />
+        />}
         {showFoot && this.renderSocial()}
       </div>
     );
