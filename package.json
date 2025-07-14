@@ -18,11 +18,12 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "test": "NODE_OPTIONS=--openssl-legacy-provider react-scripts test",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"  },
+    "heroku-postbuild": "NODE_OPTIONS=--openssl-legacy-provider npm run build"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },

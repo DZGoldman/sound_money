@@ -3,6 +3,9 @@ import "./App.css";
 import { ReactMic } from "react-mic";
 import forge from "node-forge";
 import bitcoin from "bitcoinjs-lib";
+import * as crypto from 'crypto';
+import * as bs58check from 'bs58check';
+import * as bip32 from 'bip32';
 import $ from "jquery";
 import QR from "./QR";
 import { Animated } from "react-animated-css";
@@ -10,7 +13,7 @@ import Favicon from 'react-favicon';
 import Social from './Social'
 
 var hash = "";
-const recordTime = 10;
+const recordTime = 5;
 
 var QRCode = require("qrcode");
 
@@ -129,14 +132,31 @@ class App extends Component {
       },
       () => {
         hash = hash + +new Date() + Math.random();
-        var privk = bitcoin.crypto.sha256(Buffer.from(hash));
-        const keyPair = bitcoin.ECPair.fromPrivateKey(privk);
-        const { address } = bitcoin.payments.p2pkh({
-          pubkey: keyPair.publicKey
-        });
+              // Step 1: Convert a long string to a 32-byte SHA-256 hash
+        const seed = crypto.createHash('sha256').update(hash).digest(); // 32 bytes
+
+        // Step 2: Use that as entropy to generate a BIP32 root node
+        const root = bip32.fromSeed(seed, bitcoin.networks.bitcoin); // for testnet, use bitcoin.networks.testnet
+
+        // Optional: Derive a child key
+        const child = root.derivePath("m/0'/0/0");
+
+        // Output private/public key and address
+        console.log("private key raw", child.privateKey.toString('hex'));
+        console.log("Private key (WIF):", child.toWIF());
+        console.log("Public key:", child.publicKey.toString('hex'));
+        const publicKey = child.publicKey.toString('hex');
+
+        const sha256 = crypto.createHash('sha256').update(publicKey).digest();
+        const ripemd160 = crypto.createHash('ripemd160').update(sha256).digest();
+        const payload = Buffer.concat([Buffer.from([0x00]), ripemd160]); // 0x00 = mainnet
+        const address = bs58check.encode(payload);
+        // TODO: double check
+        console.log('Public address:', address);
+        
         this.setState({
           QRs: {
-            private: keyPair.toWIF(),
+            private: child.toWIF(),
             address
           },
           showFoot: true
