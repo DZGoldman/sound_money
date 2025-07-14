@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import "./App.css";
-import { ReactMic } from "react-mic";
 
 var QRCode = require("qrcode");
 
