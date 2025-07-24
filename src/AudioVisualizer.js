@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+const HEIGHT = 400;
 class AudioVisualizer extends Component {
   constructor(props) {
     super(props);
@@ -125,7 +126,7 @@ class AudioVisualizer extends Component {
 
   getColorFromHeight = (barHeight) => {
     // Normalize bar height to 0-1 range
-    const normalized = Math.min(Math.max(barHeight / 500, 0), 1);
+    const normalized = Math.min(Math.max(barHeight / HEIGHT, 0), 1);
     
     // Create a color spectrum from blue -> green -> yellow -> red
     let r, g, b;
@@ -202,7 +203,7 @@ class AudioVisualizer extends Component {
         className={this.props.className}
         style={{
           width: '100%',
-          height: '500px',
+          height: `${HEIGHT}px`,
           backgroundColor: this.props.backgroundColor || 'black',
           ...this.props.style
         }}
