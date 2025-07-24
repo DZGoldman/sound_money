@@ -110,12 +110,37 @@ body{
 }
 
 #offline {
-  position: absolute;
-  color: red;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 0, 0, 0.2);
+  border: 2px solid #ff0000;
+  border-radius: 8px;
+  padding: 12px 20px;
+  color: #ff4444;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
   animation: fade 1s linear;
   -webkit-animation: fadeinout 6s linear forwards;
   animation: fadeinout 10s linear forwards;
   right: 5%;
+}
+
+@keyframes pulseGlow {
+  from {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    border-color: #ff0000;
+  }
+  to {
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+    border-color: #ff3333;
+  }
+
 }
 
 @-webkit-keyframes fadeinout {

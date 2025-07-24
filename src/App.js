@@ -281,7 +281,7 @@ class App extends Component {
             {showHead && "bitcoin paper wallet from audio entropy"}
           </div>
         </div>
-        {showOffline && <div id="offline">you appear to now be offline</div>}
+        {showOffline && <div id="offline">🔒 Offline Mode Active</div>}
         <div id="message">{this.state.message}</div>
         <div id="next-button-wrapper">
           {this.state.nextButtonText && (
