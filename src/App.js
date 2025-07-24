@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import { ReactMic } from "react-mic";
 import forge from "node-forge";
 import bitcoin from "bitcoinjs-lib";
 import * as crypto from 'crypto';
@@ -8,12 +7,13 @@ import * as bs58check from 'bs58check';
 import * as bip32 from 'bip32';
 import $ from "jquery";
 import QR from "./QR";
+import AudioVisualizer from "./AudioVisualizer";
 import { Animated } from "react-animated-css";
 import Favicon from 'react-favicon';
 import Social from './Social'
 
 var hash = "";
-const recordTime = 5;
+const recordTime = 10;
 
 
 class App extends Component {
@@ -300,11 +300,11 @@ class App extends Component {
           {recording && phase == "record" && "make noise"}
         </div>
         <div id='short-cd'>{shortCountDown > 0 && shortCountDown}</div>
-       {this.state.blinker && <ReactMic
-          record={this.state.recording} // defaults -> false.  Set to true to begin recording
-          onData={this.onData} // callback to execute when chunk of audio data is available
-          strokeColor={"red"} // sound wave color
-          backgroundColor={"black"} // background color
+       {this.state.blinker && <AudioVisualizer
+          record={this.state.recording}
+          onData={this.onData}
+          strokeColor={"red"}
+          backgroundColor={"black"}
           className={"ts"}
         />}
         {showFoot && this.renderSocial()}
