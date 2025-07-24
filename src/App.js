@@ -62,7 +62,7 @@ class App extends Component {
       },
       () => {
         this.setMessage(
-          "2. ensure audio is connected (the red waveform should be active)",
+          "2. ensure audio is connected (the waveform should be active)",
           () => this.setState({ nextButtonText: "next", recording: true })
         );
       }
