@@ -15,7 +15,6 @@ import Social from './Social'
 var hash = "";
 const recordTime = 5;
 
-var QRCode = require("qrcode");
 
 class App extends Component {
   state = {
